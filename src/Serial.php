@@ -27,7 +27,7 @@
 			register_shutdown_function([$this, 'close']);
 		}
 
-		public function setDevice (string $device) {
+		public function setDevice (string $device = null) {
 			$this->_device = $device;
 		}
 
