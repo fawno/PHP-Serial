@@ -25,10 +25,13 @@
 		public function open (string $mode = 'r+b') {
 			parent::open($mode);
 
+			error_clear_last();
 			$this->_serial = @dio_serial($this->_device, $mode, $this->_options);
 
 			if (!is_resource($this->_serial)) {
-				throw new ErrorException(sprintf('Unable to open the device %s', $this->_device), 0, E_USER_WARNING);
+				$error = error_get_last();
+				$error = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+				throw new ErrorException(sprintf('Unable to open the device %s', $this->_device), 0, E_USER_WARNING, $error);
 			}
 		}
 	}
