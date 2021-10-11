@@ -20,12 +20,30 @@
 
 	switch ($osName) {
 		case 'Windows':
-			{ class SerialFile extends SerialFileWindows {} }
+			{
+				/**
+				 * @package Fawno\PhpSerial
+				 *
+				*/
+				class SerialFile extends SerialFileWindows {}
+			}
 			break;
 		case 'Linux':
-			{ class SerialFile extends SerialFileLinux {} }
+			{
+				/**
+				 * @package Fawno\PhpSerial
+				 *
+				*/
+				class SerialFile extends SerialFileLinux {}
+			}
 			break;
 		case 'Darwing':
-			{ class SerialFile extends SerialFileDarwing {} }
+			{
+				/**
+				 * @package Fawno\PhpSerial
+				 *
+				*/
+				class SerialFile extends SerialFileDarwing {}
+			}
 			break;
 	}

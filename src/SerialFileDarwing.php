@@ -8,7 +8,7 @@
 	 * @package Fawno\PhpSerial
 	 *
 	*/
-	class SerialFileWindows extends Serial {
+	class SerialFileDarwing extends Serial {
 		/**
 		 * Set and prepare the port for conection.
 		 *
@@ -18,15 +18,16 @@
 		protected function setPortOptions () {
 			$params = ['device' => $this->_device] + $this->_options;
 			$param_formats = [
-				'parity' => [0 => 'n', 1 => 'o', 2 => 'e'],
-				'flow_control' => [0 => 'off', 1 => 'on'],
+				'stop_bits' => [1 => '-cstopb', 2 => 'cstopb'],
+				'parity' => [0 => '-parenb', 1 => 'parenb parodd', 2 => 'parenb -parodd'],
+				'flow_control' => [0 => 'clocal -crtscts -ixon -ixoff', 1 => '-clocal -crtscts ixon ixoff'],
 			];
 
 			foreach ($param_formats as $param => $values) {
 				$params[$param] = $values[$params[$param]];
 			}
 
-			$command = 'mode %s baud=%s data=%s stop=%s parity=%s xon=%s';
+			$command = 'stty -f %s %s cs%s %s %s %s';
 			$command = sprintf($command, ...array_values($params));
 
 			$message = exec($command, $output, $result_code);

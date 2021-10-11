@@ -4,6 +4,10 @@
 	use \ErrorException;
 	use Fawno\PhpSerial\Serial;
 
+	/**
+	 * @package Fawno\PhpSerial
+	 *
+	*/
 	class SerialDio extends Serial {
 		protected $_options = [
 			'data_rate' => 9600,
@@ -14,6 +18,15 @@
 			'is_canonical' => 1,
 		];
 
+		/**
+		 * Sets the canonical option of serial port.
+		 *
+		 * @param int $canonical
+		 * Can be 0 or 1. Default value is 1.
+		 *
+		 * @return void
+		 * @throws ErrorException
+		 */
 		public function setCanonical (int $canonical = 1) {
 			if (!in_array($canonical, self::SERIAL_CANONICAL)) {
 				throw new ErrorException(sprintf('invalid flow_control value (%d)', $canonical), 0, E_USER_WARNING);
@@ -22,6 +35,15 @@
 			$this->_options['is_canonical'] = $canonical;
 		}
 
+		/**
+		 * Binds a named resource, specified by setDevice, to a stream.
+		 *
+		 * @param string $mode
+		 * The mode parameter specifies the type of access you require to the stream (as *fopen()*).
+		 *
+		 * @return void
+		 * @throws ErrorException
+		 */
 		public function open (string $mode = 'r+b') {
 			parent::open($mode);
 
