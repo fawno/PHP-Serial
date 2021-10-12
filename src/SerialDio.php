@@ -48,7 +48,11 @@
 			parent::open($mode);
 
 			error_clear_last();
-			$this->_serial = @dio_serial($this->_device, $mode, $this->_options);
+			if (preg_match('~b~i', $mode)) {
+				$this->_serial = @dio_raw($this->_device, $mode, $this->_options);
+			} else {
+				$this->_serial = @dio_serial($this->_device, $mode, $this->_options);
+			}
 
 			if (!is_resource($this->_serial)) {
 				$error = error_get_last();

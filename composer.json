@@ -1,6 +1,6 @@
 {
     "name": "fawno/php-serial",
-		"version": "0.1.0",
+		"version": "0.1.1",
     "description": "Serial port access convenience class",
 		"authors": [
 			{
@@ -21,7 +21,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Fawno\\PhpSerial\\": "src/"
+          "Fawno\\PhpSerial\\": "src/"
         }
     }
 }
