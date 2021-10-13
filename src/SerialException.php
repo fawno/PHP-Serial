@@ -1,11 +1,32 @@
 <?php
+  /**
+   * PHP-Serial: Serial port access convenience class (https://github.com/fawno/PHP-serial)
+   * Copyright (c) Fernando Herrero (https://github.com/alpha)
+   *
+   * Licensed under The MIT License
+   * For full copyright and license information, please see the LICENSE
+   * Redistributions of files must retain the above copyright notice.
+   *
+   * @copyright     Fernando Herrero (https://github.com/alpha)
+   * @link          https://github.com/fawno/PHP-serial PHP-Serial
+   * @since         1.0.0
+   * @license       https://opensource.org/licenses/mit-license.php MIT License
+   */
   namespace Fawno\PhpSerial;
 
   use \Throwable;
   use \Exception;
 
   /**
+   * Provides custom exception class.
+   *
    * @package Fawno\PhpSerial
+   * @used-by Fawno\PhpSerial\Serial
+   * @used-by Fawno\PhpSerial\SerialDio
+   * @used-by Fawno\PhpSerial\SerialFile
+   * @used-by Fawno\PhpSerial\SerialFileDawing
+   * @used-by Fawno\PhpSerial\SerialFileLinux
+   * @used-by Fawno\PhpSerial\SerialFileWindows
    */
   class SerialException extends Exception {
     protected int $severity;

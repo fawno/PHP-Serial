@@ -1,11 +1,31 @@
 <?php
+  /**
+   * PHP-Serial: Serial port access convenience class (https://github.com/fawno/PHP-serial)
+   * Copyright (c) Fernando Herrero (https://github.com/alpha)
+   *
+   * Licensed under The MIT License
+   * For full copyright and license information, please see the LICENSE
+   * Redistributions of files must retain the above copyright notice.
+   *
+   * @copyright     Fernando Herrero (https://github.com/alpha)
+   * @link          https://github.com/fawno/PHP-serial PHP-Serial
+   * @since         0.0.1
+   * @license       https://opensource.org/licenses/mit-license.php MIT License
+   */
   namespace Fawno\PhpSerial;
 
   use Fawno\PhpSerial\SerialException;
 
   /**
+   * Serial provides general methods for serial communication.
+   *
 	 * @package Fawno\PhpSerial
-	 */
+   * @uses Fawno\PhpSerial\SerialException Provides custom exception
+   * @used-by Fawno\PhpSerial\SerialDio
+   * @used-by Fawno\PhpSerial\SerialFileDarwing
+   * @used-by Fawno\PhpSerial\SerialFileLinux
+   * @used-by Fawno\PhpSerial\SerialFileWindows
+   */
   class Serial {
     public const SERIAL_DATA_RATES = [75, 110, 134, 150, 300, 600, 1200, 1800, 2400, 4800, 7200, 9600, 14400, 19200, 38400, 57600, 115200, 56000, 128000, 256000];
     public const SERIAL_DATA_BITS = [8, 7, 6, 5];
@@ -25,6 +45,8 @@
     ];
 
     /**
+     * Construct the serial interface. Sets the device path and register shutdown function.
+     *
      * @param string|null $device
      * @return void
      */
@@ -35,6 +57,8 @@
     }
 
     /**
+     * Sets the device path.
+     *
      * @param string|null $device
      * @return void
      */
@@ -43,6 +67,8 @@
     }
 
     /**
+     * Sets the data rate.
+     *
      * @param int $data_rate
      * @return void
      * @throws SerialException
@@ -56,6 +82,8 @@
     }
 
     /**
+     * Sets the parity.
+     *
      * @param int $parity
      * @return void
      * @throws SerialException
@@ -69,6 +97,8 @@
     }
 
     /**
+     * Sets the number of data bits.
+     *
      * @param int $data_bits
      * @return void
      * @throws SerialException
@@ -82,6 +112,8 @@
     }
 
     /**
+     * Sets the number of stop bits.
+     *
      * @param int $stop_bits
      * @return void
      * @throws SerialException
@@ -95,6 +127,8 @@
     }
 
     /**
+     * Sets the flow control.
+     *
      * @param int $flow_control
      * @return void
      * @throws ErrorSerialException
@@ -108,7 +142,7 @@
     }
 
     /**
-     * Set blocking/non-blocking mode
+     * Sets blocking/non-blocking mode
      *
      * @param bool $enable
      * If mode is FALSE, the given stream will be switched to non-blocking mode, and if TRUE, it will be switched to blocking mode. This affects calls like fgets and fread that read from the stream. In non-blocking mode an fgets call will always return right away while in blocking mode it will wait for data to become available on the stream.
@@ -127,7 +161,7 @@
     }
 
     /**
-     * Set timeout period
+     * Sets timeout period
      *
      * @param int $seconds
      * The seconds part of the timeout to be set.
@@ -152,7 +186,7 @@
      * Binds a named resource, specified by setDevice, to a stream.
      *
      * @param string $mode
-     * The mode parameter specifies the type of access you require to the stream (as *fopen()*).
+     * The mode parameter specifies the type of access you require to the stream (as `fopen()`).
      *
      * @return void
      * @throws SerialException
@@ -172,6 +206,8 @@
     }
 
     /**
+     * Closes the serial stream.
+     *
      * @return void
      * @throws SerialException
      */
@@ -186,8 +222,14 @@
     }
 
     /**
+     * Writes data to the serial stream.
+     *
      * @param string $data
+     * The written data.
+     *
      * @return int|false
+     * Returns the number of bytes written, or `false` on error.
+     *
      * @throws SerialException
      */
     public function send (string $data) {
@@ -199,9 +241,17 @@
     }
 
     /**
+     * Reads remainder of the serial stream into a string.
+     *
      * @param int $length
+     * The maximum bytes to read. Defaults to -1 (read all the remainingbuffer).
+     *
      * @param int $offset
+     * Seek to the specified offset before reading. If this number is negative,no seeking will occur and reading will start from the current position.
+     *
      * @return string|false
+     * Returns a string or `false` on failure.
+     *
      * @throws SerialException
      */
     public function read (int $length = -1, int $offset = -1) {

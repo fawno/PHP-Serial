@@ -1,16 +1,33 @@
 <?php
+  /**
+   * PHP-Serial: Serial port access convenience class (https://github.com/fawno/PHP-serial)
+   * Copyright (c) Fernando Herrero (https://github.com/alpha)
+   *
+   * Licensed under The MIT License
+   * For full copyright and license information, please see the LICENSE
+   * Redistributions of files must retain the above copyright notice.
+   *
+   * @copyright     Fernando Herrero (https://github.com/alpha)
+   * @link          https://github.com/fawno/PHP-serial PHP-Serial
+   * @since         0.1.0
+   * @license       https://opensource.org/licenses/mit-license.php MIT License
+   */
   namespace Fawno\PhpSerial;
 
   use Fawno\PhpSerial\Serial;
   use Fawno\PhpSerial\SerialException;
 
   /**
-   * @package Fawno\PhpSerial
+   * SerialFileDarwing class provides serial connection using file stream in OSX OS
    *
-  */
+   * @package Fawno\PhpSerial
+   * @uses Fawno\PhpSerial\Serial Provides general serial methods
+   * @uses Fawno\PhpSerial\SerialException Provides custom exception
+   * @used-by Fawno\PhpSerial\SerialFile
+   */
   class SerialFileDarwing extends Serial {
     /**
-     * Set and prepare the port for conection.
+     * Sets and prepare the port for conection.
      *
      * @return void
      * @throws SerialException
@@ -41,7 +58,7 @@
      * Binds a named resource, specified by setDevice, to a stream.
      *
      * @param string $mode
-     * The mode parameter specifies the type of access you require to the stream (as *fopen()*).
+     * The mode parameter specifies the type of access you require to the stream (as `fopen()`).
      *
      * @return void
      * @throws SerialException

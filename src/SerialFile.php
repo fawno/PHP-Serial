@@ -1,7 +1,20 @@
 <?php
+  /**
+   * PHP-Serial: Serial port access convenience class (https://github.com/fawno/PHP-serial)
+   * Copyright (c) Fernando Herrero (https://github.com/alpha)
+   *
+   * Licensed under The MIT License
+   * For full copyright and license information, please see the LICENSE
+   * Redistributions of files must retain the above copyright notice.
+   *
+   * @copyright     Fernando Herrero (https://github.com/alpha)
+   * @link          https://github.com/fawno/PHP-serial PHP-Serial
+   * @since         0.1.0
+   * @license       https://opensource.org/licenses/mit-license.php MIT License
+   */
   namespace Fawno\PhpSerial;
 
-  use \ErrorException;
+  use Fawno\PhpSerial\SerialException;
   use Fawno\PhpSerial\SerialFileWindows;
   use Fawno\PhpSerial\SerialFileLinux;
   use Fawno\PhpSerial\SerialFileDarwing;
@@ -15,34 +28,46 @@
   }
 
   if (!class_exists('Fawno\PhpSerial\SerialFile' . $osName)) {
-    throw new ErrorException(sprintf('Host OS "%s" is unsupported', $osName), 0, E_USER_WARNING);
+    throw new SerialException(sprintf('Host OS "%s" is unsupported', $osName));
   }
 
   switch ($osName) {
     case 'Windows':
       {
         /**
-         * @package Fawno\PhpSerial
+         * SerialFile class provides serial connection using file stream.
+         * Is a wrapper for specific OS class.
          *
-        */
+         * @package Fawno\PhpSerial
+         * @uses Fawno\PhpSerial\SerialFileWindows Provides serial connection using file stream in Windows OS
+         * @uses Fawno\PhpSerial\SerialException
+         */
         class SerialFile extends SerialFileWindows {}
       }
       break;
     case 'Linux':
       {
         /**
-         * @package Fawno\PhpSerial
+         * SerialFile class provides serial connection using file stream.
+         * Is a wrapper for specific OS class.
          *
-        */
+         * @package Fawno\PhpSerial
+         * @uses Fawno\PhpSerial\SerialFileLinux Provides serial connection using file stream in Linux OS
+         * @uses Fawno\PhpSerial\SerialException
+         */
         class SerialFile extends SerialFileLinux {}
       }
       break;
     case 'Darwing':
       {
         /**
-         * @package Fawno\PhpSerial
+         * SerialFile class provides serial connection using file stream.
+         * Is a wrapper for specific OS class.
          *
-        */
+         * @package Fawno\PhpSerial
+         * @uses Fawno\PhpSerial\SerialFileDarwing Provides serial connection using file stream in OSX OS
+         * @uses Fawno\PhpSerial\SerialException
+         */
         class SerialFile extends SerialFileDarwing {}
       }
       break;
