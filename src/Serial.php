@@ -1,12 +1,11 @@
 <?php
   namespace Fawno\PhpSerial;
 
-  use \ErrorException;
+  use Fawno\PhpSerial\SerialException;
 
   /**
-   * @package Fawno\PhpSerial
-   *
-  */
+	 * @package Fawno\PhpSerial
+	 */
   class Serial {
     public const SERIAL_DATA_RATES = [75, 110, 134, 150, 300, 600, 1200, 1800, 2400, 4800, 7200, 9600, 14400, 19200, 38400, 57600, 115200, 56000, 128000, 256000];
     public const SERIAL_DATA_BITS = [8, 7, 6, 5];
@@ -46,11 +45,11 @@
     /**
      * @param int $data_rate
      * @return void
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function setDataRate (int $data_rate = 9600) {
       if (!in_array($data_rate, self::SERIAL_DATA_RATES)) {
-        throw new ErrorException(sprintf('invalid data_rate value (%d)', $data_rate), 0, E_USER_WARNING);
+        throw new SerialException(sprintf('Invalid data_rate value (%d)', $data_rate));
       }
 
       $this->_options['data_rate'] = $data_rate;
@@ -59,11 +58,11 @@
     /**
      * @param int $parity
      * @return void
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function setParity (int $parity = 0) {
       if (!in_array($parity, self::SERIAL_PARITY)) {
-        throw new ErrorException(sprintf('invalid parity value (%d)', $parity), 0, E_USER_WARNING);
+        throw new SerialException(sprintf('Invalid parity value (%d)', $parity));
       }
 
       $this->_options['parity'] = $parity;
@@ -72,11 +71,11 @@
     /**
      * @param int $data_bits
      * @return void
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function setDataBits (int $data_bits = 8) {
       if (!in_array($data_bits, self::SERIAL_DATA_BITS)) {
-        throw new ErrorException(sprintf('invalid data_bits value (%d)', $data_bits), 0, E_USER_WARNING);
+        throw new SerialException(sprintf('Invalid data_bits value (%d)', $data_bits));
       }
 
       $this->_options['data_bits'] = $data_bits;
@@ -85,11 +84,11 @@
     /**
      * @param int $stop_bits
      * @return void
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function setStopBits (int $stop_bits = 1) {
       if (!in_array($stop_bits, self::SERIAL_STOP_BITS)) {
-        throw new ErrorException(sprintf('invalid stop_bits value (%d)', $stop_bits), 0, E_USER_WARNING);
+        throw new SerialException(sprintf('Invalid stop_bits value (%d)', $stop_bits));
       }
 
       $this->_options['stop_bits'] = $stop_bits;
@@ -98,11 +97,11 @@
     /**
      * @param int $flow_control
      * @return void
-     * @throws ErrorException
+     * @throws ErrorSerialException
      */
     public function setFlowControl (int $flow_control = 1) {
       if (!in_array($flow_control, self::SERIAL_FLOW_CONTROL)) {
-        throw new ErrorException(sprintf('invalid flow_control value (%d)', $flow_control), 0, E_USER_WARNING);
+        throw new SerialException(sprintf('Invalid flow_control value (%d)', $flow_control));
       }
 
       $this->_options['flow_control'] = $flow_control;
@@ -117,11 +116,11 @@
      * @return bool
      * true on success or false on failure.
      *
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function setBlocking (bool $enable) : bool {
       if (!is_resource($this->_serial)) {
-        throw new ErrorException('Device must be opened to set blocking', 0, E_USER_WARNING);
+        throw new SerialException('Device must be opened to set blocking');
       }
 
       return stream_set_blocking($this->_serial, $enable);
@@ -139,11 +138,11 @@
      * @return bool
      * true on success or false on failure.
      *
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function setTimeout (int $seconds = 0, int $microseconds = 0) : bool {
       if (!is_resource($this->_serial)) {
-        throw new ErrorException('Device must be opened to set timeout', 0, E_USER_WARNING);
+        throw new SerialException('Device must be opened to set timeout');
       }
 
       return stream_set_timeout($this->_serial, $seconds, $microseconds);
@@ -156,30 +155,30 @@
      * The mode parameter specifies the type of access you require to the stream (as *fopen()*).
      *
      * @return void
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function open (string $mode = 'r+b') {
       if (is_resource($this->_serial)) {
-        throw new ErrorException('The device is already opened', 0, E_USER_WARNING);
+        throw new SerialException('The device is already opened');
       }
 
       if (empty($this->_device)) {
-        throw new ErrorException('The device must be set before to be open', 0, E_USER_WARNING);
+        throw new SerialException('The device must be set before to be open');
       }
 
       if (!preg_match('~^[raw]\+?b?$~', $mode)) {
-        throw new ErrorException(sprintf('Invalid opening mode: %s. Use fopen() modes.', $mode), 0, E_USER_WARNING);
+        throw new SerialException(sprintf('Invalid opening mode: %s. Use fopen() modes.', $mode));
       }
     }
 
     /**
      * @return void
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function close () {
       if (is_resource($this->_serial)) {
         if (!fclose($this->_serial)) {
-          throw new ErrorException('Unable to close the device', 0, E_USER_WARNING);
+          throw new SerialException('Unable to close the device');
         }
       }
 
@@ -189,11 +188,11 @@
     /**
      * @param string $data
      * @return int|false
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function send (string $data) {
       if (!is_resource($this->_serial)) {
-        throw new ErrorException('Device must be opened to write it', 0, E_USER_WARNING);
+        throw new SerialException('Device must be opened to write it');
       }
 
       return fwrite($this->_serial, $data);
@@ -203,11 +202,11 @@
      * @param int $length
      * @param int $offset
      * @return string|false
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function read (int $length = -1, int $offset = -1) {
       if (!is_resource($this->_serial)) {
-        throw new ErrorException('Device must be opened to read it', 0, E_USER_WARNING);
+        throw new SerialException('Device must be opened to read it');
       }
 
       return stream_get_contents($this->_serial, $length, $offset);

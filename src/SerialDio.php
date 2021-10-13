@@ -1,8 +1,8 @@
 <?php
   namespace Fawno\PhpSerial;
 
-  use \ErrorException;
   use Fawno\PhpSerial\Serial;
+  use Fawno\PhpSerial\SerialException;
 
   /**
    * @package Fawno\PhpSerial
@@ -25,11 +25,11 @@
      * Can be 0 or 1. Default value is 1.
      *
      * @return void
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function setCanonical (int $canonical = 1) {
       if (!in_array($canonical, self::SERIAL_CANONICAL)) {
-        throw new ErrorException(sprintf('invalid flow_control value (%d)', $canonical), 0, E_USER_WARNING);
+        throw new SerialException(sprintf('invalid flow_control value (%d)', $canonical));
       }
 
       $this->_options['is_canonical'] = $canonical;
@@ -42,7 +42,7 @@
      * The mode parameter specifies the type of access you require to the stream (as *fopen()*).
      *
      * @return void
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function open (string $mode = 'r+b') {
       parent::open($mode);
@@ -52,8 +52,11 @@
 
       if (!is_resource($this->_serial)) {
         $error = error_get_last();
-        $error = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
-        throw new ErrorException(sprintf('Unable to open the device %s', $this->_device), 0, E_USER_WARNING, $error);
+        if (is_array($error)) {
+          $error = new SerialException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+        }
+
+        throw new SerialException(sprintf('Unable to open the device %s', $this->_device), 0, E_ERROR, null, null, $error);
       }
     }
 
@@ -64,7 +67,7 @@
      * The mode parameter specifies the type of access you require to the stream (as *fopen()*).
      *
      * @return void
-     * @throws ErrorException
+     * @throws SerialException
      */
     public function open_raw (string $mode = 'r+b') {
       parent::open($mode);
@@ -74,8 +77,8 @@
 
       if (!is_resource($this->_serial)) {
         $error = error_get_last();
-        $error = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
-        throw new ErrorException(sprintf('Unable to open the device %s', $this->_device), 0, E_USER_WARNING, $error);
+        $error = new SerialException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+        throw new SerialException(sprintf('Unable to open device %s', $this->_device), 0, E_ERROR, null, null, $error);
       }
     }
   }
