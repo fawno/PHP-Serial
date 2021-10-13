@@ -1,22 +1,22 @@
 {
     "name": "fawno/php-serial",
-		"version": "0.1.2",
+    "version": "0.1.2",
     "description": "Serial port access convenience class",
-		"authors": [
-			{
-				"name": "Fawno",
-				"homepage": "https://github.com/fawno/PHP-Serial/graphs/contributors"
-			}
-		],
-		"support": {
-			"issues": "https://github.com/fawno/PHP-Serial/issues",
-			"source": "https://github.com/fawno/PHP-Serial"
-		},
-		"require": {
-			"php": ">=7.4.0"
+    "authors": [
+      {
+        "name": "Fawno",
+        "homepage": "https://github.com/fawno/PHP-Serial/graphs/contributors"
+      }
+    ],
+    "support": {
+      "issues": "https://github.com/fawno/PHP-Serial/issues",
+      "source": "https://github.com/fawno/PHP-Serial"
     },
-		"suggest": {
-			"ext-dio": "Needed for SerialDio (>=0.0.2)"
+    "require": {
+      "php": ">=7.4.0"
+    },
+    "suggest": {
+      "ext-dio": "Needed for SerialDio (>=0.0.2)"
     },
     "license": "MIT",
     "autoload": {
