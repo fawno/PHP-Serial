@@ -20,8 +20,8 @@
     },
     "license": "MIT",
     "autoload": {
-        "psr-4": {
-          "Fawno\\PhpSerial\\": "src/"
-        }
+      "psr-4": {
+        "Fawno\\PhpSerial\\": "src/"
+      }
     }
 }
