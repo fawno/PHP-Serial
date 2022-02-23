@@ -23,6 +23,7 @@ Thumbs.db
 #######################
 /.vscode
 /composer.lock
+/.phpdoc
 # vim
 *~
 *.swp

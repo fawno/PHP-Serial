@@ -94,8 +94,11 @@
 
       if (!is_resource($this->_serial)) {
         $error = error_get_last();
-        $error = new SerialException($error['message'], 0, $error['type'], $error['file'], $error['line']);
-        throw new SerialException(sprintf('Unable to open device %s', $this->_device), 0, E_ERROR, null, null, $error);
+        if (is_array($error)) {
+          $error = new SerialException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+        }
+
+        throw new SerialException(sprintf('Unable to open the device %s', $this->_device), 0, E_ERROR, null, null, $error);
       }
     }
   }
