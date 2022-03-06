@@ -12,6 +12,8 @@
    * @since         0.0.1
    * @license       https://opensource.org/licenses/mit-license.php MIT License
    */
+  declare(strict_types=1);
+
   namespace Fawno\PhpSerial;
 
   use Fawno\PhpSerial\Serial;
@@ -32,10 +34,10 @@
      * @param string $mode
      * The mode parameter specifies the type of access you require to the stream (as `fopen()`).
      *
-     * @return void
+     * @return SerialDio
      * @throws SerialException
      */
-    public function open (string $mode = 'r+b') {
+    public function open (string $mode = 'r+b') : SerialDio {
       parent::open($mode);
 
       error_clear_last();
@@ -45,10 +47,13 @@
         $error = error_get_last();
         if (is_array($error)) {
           $error = new SerialException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+          throw new SerialException(sprintf('Unable to open the device %s', $this->_device), 0, E_ERROR, null, null, $error);
         }
 
-        throw new SerialException(sprintf('Unable to open the device %s', $this->_device), 0, E_ERROR, null, null, $error);
+        throw new SerialException(sprintf('Unable to open the device %s', $this->_device));
       }
+
+      return $this;
     }
 
     /**
@@ -57,10 +62,10 @@
      * @param string $mode
      * The mode parameter specifies the type of access you require to the stream (as `fopen()`).
      *
-     * @return void
+     * @return SerialDio
      * @throws SerialException
      */
-    public function open_raw (string $mode = 'r+b') {
+    public function open_raw (string $mode = 'r+b') : SerialDio {
       parent::open($mode);
 
       error_clear_last();
@@ -70,9 +75,12 @@
         $error = error_get_last();
         if (is_array($error)) {
           $error = new SerialException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+          throw new SerialException(sprintf('Unable to open the device %s', $this->_device), 0, E_ERROR, null, null, $error);
         }
 
-        throw new SerialException(sprintf('Unable to open the device %s', $this->_device), 0, E_ERROR, null, null, $error);
+        throw new SerialException(sprintf('Unable to open the device %s', $this->_device));
       }
+
+      return $this;
     }
   }

@@ -12,6 +12,8 @@
    * @since         0.1.0
    * @license       https://opensource.org/licenses/mit-license.php MIT License
    */
+  declare(strict_types=1);
+
   namespace Fawno\PhpSerial\File;
 
   use Fawno\PhpSerial\Serial;
@@ -29,10 +31,10 @@
     /**
      * Sets and prepare the port for conection.
      *
-     * @return void
+     * @return Linux
      * @throws SerialException
      */
-    protected function setPortOptions () {
+    protected function setPortOptions () : Linux {
       $params = ['device' => $this->_device] + $this->_options;
       $param_formats = [
         'stop_bits' => [1 => '-cstopb', 2 => 'cstopb'],
@@ -51,6 +53,8 @@
       if ($result_code) {
         throw new SerialException(utf8_encode($message), $result_code);
       }
+
+      return $this;
     }
 
 
@@ -60,10 +64,10 @@
      * @param string $mode
      * The mode parameter specifies the type of access you require to the stream (as `fopen()`).
      *
-     * @return void
+     * @return Linux
      * @throws SerialException
      */
-    public function open (string $mode = 'r+b') {
+    public function open (string $mode = 'r+b') : Linux {
       $this->setPortOptions();
 
       parent::open($mode);
@@ -79,5 +83,7 @@
 
         throw new SerialException(sprintf('Unable to open device %s', $this->_device), 0, E_ERROR, null, null, $error);
       }
+
+      return $this;
     }
   }

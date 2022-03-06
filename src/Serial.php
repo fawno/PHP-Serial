@@ -55,17 +55,19 @@
      * @param bool $enable
      * If mode is FALSE, the given stream will be switched to non-blocking mode, and if TRUE, it will be switched to blocking mode. This affects calls like fgets and fread that read from the stream. In non-blocking mode an fgets call will always return right away while in blocking mode it will wait for data to become available on the stream.
      *
-     * @return bool
-     * true on success or false on failure.
-     *
+     * @return Serial
      * @throws SerialException
      */
-    public function setBlocking (bool $enable) : bool {
+    public function setBlocking (bool $enable) : Serial {
       if (!is_resource($this->_serial)) {
         throw new SerialException('Device must be opened to set blocking');
       }
 
-      return stream_set_blocking($this->_serial, $enable) ? $this : false;
+      if (!stream_set_blocking($this->_serial, $enable)) {
+        throw new SerialException('Setting blocking error');
+      }
+
+      return $this;
     }
 
     /**
@@ -77,17 +79,19 @@
      * @param int $microseconds
      * The microseconds part of the timeout to be set.
      *
-     * @return bool
-     * true on success or false on failure.
-     *
+     * @return Serial
      * @throws SerialException
      */
-    public function setTimeout (int $seconds = 0, int $microseconds = 0) : bool {
+    public function setTimeout (int $seconds = 0, int $microseconds = 0) : Serial {
       if (!is_resource($this->_serial)) {
         throw new SerialException('Device must be opened to set timeout');
       }
 
-      return stream_set_timeout($this->_serial, $seconds, $microseconds) ? $this : false;
+      if (!stream_set_timeout($this->_serial, $seconds, $microseconds)) {
+        throw new SerialException('Setting timeout error');
+      }
+
+      return $this;
     }
 
     /**
@@ -122,7 +126,7 @@
     public function close () {
       if (is_resource($this->_serial)) {
         if (!fclose($this->_serial)) {
-          throw new SerialException('Unable to close the device');
+          throw new SerialException(sprintf('Unable to close the device %s', $this->_device));
         }
       }
 
