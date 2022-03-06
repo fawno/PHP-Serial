@@ -1,16 +1,14 @@
 <?php
   declare(strict_types=1);
 
-  namespace Fawno\PhpSerial;
+  namespace Fawno\PhpSerial\Config;
 
   use ReflectionClass;
 
-  class SerialDataBits {
-    //public const CS4 = 4; //win
-    public const CS5 = 5;
-    public const CS6 = 6;
-    public const CS7 = 7;
-    public const CS8 = 8;
+  class Parity {
+    public const NONE = 0;
+    public const ODD  = 1;
+    public const EVEN = 2;
 
     static function getConstants () : array {
       return (new ReflectionClass(__CLASS__))->getConstants();

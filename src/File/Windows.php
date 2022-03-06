@@ -12,20 +12,20 @@
    * @since         0.1.0
    * @license       https://opensource.org/licenses/mit-license.php MIT License
    */
-  namespace Fawno\PhpSerial;
+  namespace Fawno\PhpSerial\File;
 
   use Fawno\PhpSerial\Serial;
   use Fawno\PhpSerial\SerialException;
 
   /**
-   * SerialFileWindows class provides serial connection using file stream in Windows OS
+   * Windows class provides serial connection using file stream in Windows OS
    *
    * @package Fawno\PhpSerial
    * @uses Fawno\PhpSerial\Serial Provides general serial methods
    * @uses Fawno\PhpSerial\SerialException Provides custom exception
    * @used-by Fawno\PhpSerial\SerialFile
    */
-  class SerialFileWindows extends Serial {
+  class Windows extends Serial {
     /**
      * Sets and prepare the port for conection.
      *

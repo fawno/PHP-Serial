@@ -12,20 +12,20 @@
    * @since         0.1.0
    * @license       https://opensource.org/licenses/mit-license.php MIT License
    */
-  namespace Fawno\PhpSerial;
+  namespace Fawno\PhpSerial\File;
 
   use Fawno\PhpSerial\Serial;
   use Fawno\PhpSerial\SerialException;
 
   /**
-   * SerialFileLinux class provides serial connection using file stream in Linux OS
+   * Darwing class provides serial connection using file stream in OSX OS
    *
    * @package Fawno\PhpSerial
    * @uses Fawno\PhpSerial\Serial Provides general serial methods
    * @uses Fawno\PhpSerial\SerialException Provides custom exception
    * @used-by Fawno\PhpSerial\SerialFile
    */
-  class SerialFileLinux extends Serial {
+  class Darwing extends Serial {
     /**
      * Sets and prepare the port for conection.
      *
@@ -44,7 +44,7 @@
         $params[$param] = $values[$params[$param]];
       }
 
-      $command = 'stty -F %s %s cs%s %s %s %s';
+      $command = 'stty -f %s %s cs%s %s %s %s';
       $command = sprintf($command, ...array_values($params));
 
       $message = exec($command, $output, $result_code);

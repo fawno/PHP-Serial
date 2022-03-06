@@ -18,10 +18,6 @@
 
   use Fawno\PhpSerial\SerialException;
   use Fawno\PhpSerial\SerialConfig;
-  use Fawno\PhpSerial\SerialBaudRates;
-  use Fawno\PhpSerial\SerialStopBits;
-  use Fawno\PhpSerial\SerialParity;
-  use Fawno\PhpSerial\SerialDataBits;
 
   /**
    * Serial provides general methods for serial communication.
@@ -29,9 +25,9 @@
 	 * @package Fawno\PhpSerial
    * @uses Fawno\PhpSerial\SerialException Provides custom exception
    * @used-by Fawno\PhpSerial\SerialDio
-   * @used-by Fawno\PhpSerial\SerialFileDarwing
-   * @used-by Fawno\PhpSerial\SerialFileLinux
-   * @used-by Fawno\PhpSerial\SerialFileWindows
+   * @used-by Fawno\PhpSerial\File\Darwing
+   * @used-by Fawno\PhpSerial\File\Linux
+   * @used-by Fawno\PhpSerial\File\Windows
    */
   class Serial {
     public const SERIAL_CANONICAL = [0, 1];
@@ -46,21 +42,11 @@
      * @param string|null $device
      * @return void
      */
-    public function __construct (string $device = null, SerialConfig $config) {
+    public function __construct (string $device, SerialConfig $config) {
+      $this->_device = $device;
       $this->_options = $config->__toArray();
-      $this->setDevice($device);
 
       register_shutdown_function([$this, 'close']);
-    }
-
-    /**
-     * Sets the device path.
-     *
-     * @param string|null $device
-     * @return void
-     */
-    public function setDevice (string $device = null) {
-      $this->_device = $device;
     }
 
     /**

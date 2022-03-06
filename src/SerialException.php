@@ -29,6 +29,12 @@
    * @used-by Fawno\PhpSerial\SerialFileWindows
    */
   class SerialException extends Exception {
+    public const ERROR_INDETERMINATE = 0;
+    public const ERROR_DATA_RATE     = 1;
+    public const ERROR_DATA_BITS     = 2;
+    public const ERROR_STOP_BITS     = 3;
+    public const ERROR_PARITY        = 4;
+
     protected int $severity;
 
     /**
@@ -56,7 +62,7 @@
      *
      * @return void
      */
-    public function __construct (string $message = '', int $code = 0, int $severity = E_ERROR, string $filename = null, int $line = null , Throwable $previous = null) {
+    public function __construct (string $message = '', int $code = self::ERROR_INDETERMINATE, int $severity = E_ERROR, string $filename = null, int $line = null , Throwable $previous = null) {
       $this->severity = $severity;
 
       if (!is_null($filename)) {

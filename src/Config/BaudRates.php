@@ -1,11 +1,11 @@
 <?php
   declare(strict_types=1);
 
-  namespace Fawno\PhpSerial;
+  namespace Fawno\PhpSerial\Config;
 
   use ReflectionClass;
 
-  class SerialBaudRates {
+  class BaudRates {
 		//public const B50     =     50; //posix
 		public const B75     =     75;
 		public const B110    =    110;

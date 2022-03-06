@@ -3,18 +3,18 @@
 
   require __DIR__ . '/autoload.php';
 
-  use Fawno\PhpSerial\SerialBaudRates;
+  use Fawno\PhpSerial\Config\BaudRates;
+  use Fawno\PhpSerial\Config\StopBits;
+  use Fawno\PhpSerial\Config\Parity;
+  use Fawno\PhpSerial\Config\DataBits;
   use Fawno\PhpSerial\SerialConfig;
-  use Fawno\PhpSerial\SerialStopBits;
-  use Fawno\PhpSerial\SerialParity;
-  use Fawno\PhpSerial\SerialDataBits;
   use Fawno\PhpSerial\SerialDio;
 
   $config = new SerialConfig;
-  $config->setBaudRate(SerialBaudRates::B9600);
-  $config->setDataBits(SerialDataBits::CS8);
-  $config->setStopBits(SerialStopBits::ONE);
-  $config->setParity(SerialParity::NONE);
+  $config->setBaudRate(BaudRates::B9600);
+  $config->setDataBits(DataBits::CS8);
+  $config->setStopBits(StopBits::ONE);
+  $config->setParity(Parity::NONE);
   $config->setFlowControl(true);
 
   $serial = new SerialDio('COM4', $config);

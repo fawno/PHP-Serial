@@ -25,27 +25,32 @@ You can install this plugin into your application using
   require 'vendor/autoload.php';
 
   use Fawno\PhpSerial\SerialDio;
+  use Fawno\PhpSerial\SerialConfig;
+  use Fawno\PhpSerial\SerialBaudRates;
+  use Fawno\PhpSerial\SerialStopBits;
+  use Fawno\PhpSerial\SerialParity;
+  use Fawno\PhpSerial\SerialDataBits;
 
-  // Create SerialDio object with COM3 as device
-  $serial = new SerialDio('COM3');
-
-  // Set device
-  $serial->SetDevice('COM4');
+  // Create default serial config
+  $config = new SerialConfig;
 
   // Set Data Rate
-  $serial->setDataRate(9600);
-
-  // Set Parity
-  $serial->setParity(0);
+  $config->setBaudRate(SerialBaudRates::B9600);
 
   // Set Data Bits
-  $serial->setDataBits(8);
+  $config->setDataBits(SerialDataBits::CS8);
 
   // Set Stop Bits
-  $serial->setStopBits(1);
+  $config->setStopBits(SerialStopBits::ONE);
+
+  // Set Parity
+  $config->setParity(SerialParity::NONE);
 
   // Set Flow Control
-  $serial->setFlowControl(0);
+  $config->setFlowControl(true);
+
+  // Create SerialDio object with COM3 as device
+  $serial = new SerialDio('COM3', $config);
 
   // Open device
   $serial->open('r+b');

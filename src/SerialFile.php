@@ -16,19 +16,19 @@
 
   use Fawno\PhpSerial\SerialException;
   use Fawno\PhpSerial\SerialConfig;
-  use Fawno\PhpSerial\SerialFileWindows;
-  use Fawno\PhpSerial\SerialFileLinux;
-  use Fawno\PhpSerial\SerialFileDarwing;
+  use Fawno\PhpSerial\File\Windows;
+  use Fawno\PhpSerial\File\Linux;
+  use Fawno\PhpSerial\File\Darwing;
 
   $sysName = php_uname();
   $osName = preg_replace('~^.*(Linux|Darwing|Windows).*$~', '$1', $sysName);
-  $classFile = __DIR__ . '/SerialFile' . $osName . '.php';
+  $classFile = __DIR__ . '/File/' . $osName . '.php';
 
   if (is_file($classFile)) {
-    include $classFile;
+    include_once $classFile;
   }
 
-  if (!class_exists('Fawno\PhpSerial\SerialFile' . $osName)) {
+  if (!class_exists('Fawno\\PhpSerial\\File\\' . $osName)) {
     throw new SerialException(sprintf('Host OS "%s" is unsupported', $osName));
   }
 
@@ -40,10 +40,10 @@
          * Is a wrapper for specific OS class.
          *
          * @package Fawno\PhpSerial
-         * @uses Fawno\PhpSerial\SerialFileWindows Provides serial connection using file stream in Windows OS
+         * @uses Fawno\PhpSerial\File\Windows Provides serial connection using file stream in Windows OS
          * @uses Fawno\PhpSerial\SerialException
          */
-        class SerialFile extends SerialFileWindows {
+        class SerialFile extends Windows {
           /**
            * Construct the serial interface. Sets the device path and register shutdown function.
            *
@@ -67,7 +67,7 @@
          * @uses Fawno\PhpSerial\SerialFileLinux Provides serial connection using file stream in Linux OS
          * @uses Fawno\PhpSerial\SerialException
          */
-        class SerialFile extends SerialFileLinux {
+        class SerialFile extends Linux {
           /**
            * Construct the serial interface. Sets the device path and register shutdown function.
            *
@@ -91,7 +91,7 @@
          * @uses Fawno\PhpSerial\SerialFileDarwing Provides serial connection using file stream in OSX OS
          * @uses Fawno\PhpSerial\SerialException
          */
-        class SerialFile extends SerialFileDarwing {
+        class SerialFile extends Darwing {
           /**
            * Construct the serial interface. Sets the device path and register shutdown function.
            *

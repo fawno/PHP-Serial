@@ -1,11 +1,11 @@
 <?php
   declare(strict_types=1);
 
-  namespace Fawno\PhpSerial;
+  namespace Fawno\PhpSerial\Config;
 
   use ReflectionClass;
 
-  class SerialStopBits {
+  class StopBits {
     //public const NONE = 0;
     public const ONE = 1;
     public const TWO = 2;
