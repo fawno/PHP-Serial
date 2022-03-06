@@ -1,6 +1,6 @@
 {
     "name": "fawno/php-serial",
-    "version": "1.0.1",
+    "version": "2.0.0",
     "description": "Serial port access convenience class",
     "authors": [
       {
@@ -16,7 +16,7 @@
       "php": ">=7.4.0"
     },
     "suggest": {
-      "ext-dio": "Needed for SerialDio (>=0.0.2)"
+      "ext-dio": "Needed for SerialDio (>=0.2.1)"
     },
     "license": "MIT",
     "autoload": {

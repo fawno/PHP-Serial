@@ -8,7 +8,7 @@
 Serial port access convenience class
 
 ## Requirements
-- PHP Pecl dio extension (>= 0.0.2) for SerialDio.
+- PHP Pecl dio extension (>= 0.2.1) for SerialDio.
 
 ## Installation
 
