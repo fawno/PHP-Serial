@@ -12,6 +12,13 @@
    * @since         0.0.1
    * @license       https://opensource.org/licenses/mit-license.php MIT License
    */
+
+  require __DIR__ . '/src/SerialBaudRates.php';
+  require __DIR__ . '/src/SerialDataBits.php';
+  require __DIR__ . '/src/SerialParity.php';
+  require __DIR__ . '/src/SerialStopBits.php';
+  require __DIR__ . '/src/SerialConfig.php';
+
   require __DIR__ . '/src/Serial.php';
   require __DIR__ . '/src/SerialException.php';
   require __DIR__ . '/src/SerialDio.php';

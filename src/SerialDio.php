@@ -26,32 +26,6 @@
    * @used-by Fawno\PhpSerial\SerialFile
    */
   class SerialDio extends Serial {
-    protected $_options = [
-      'data_rate' => 9600,
-      'data_bits' => 8,
-      'stop_bits' => 1,
-      'parity' => 0,
-      'flow_control' => 1,
-      'is_canonical' => 1,
-    ];
-
-    /**
-     * Sets the canonical option of serial port.
-     *
-     * @param int $canonical
-     * Can be 0 or 1. Default value is 1.
-     *
-     * @return void
-     * @throws SerialException
-     */
-    public function setCanonical (int $canonical = 1) {
-      if (!in_array($canonical, self::SERIAL_CANONICAL)) {
-        throw new SerialException(sprintf('invalid flow_control value (%d)', $canonical));
-      }
-
-      $this->_options['is_canonical'] = $canonical;
-    }
-
     /**
      * Binds a named resource, specified by setDevice, to a stream.
      *

@@ -15,6 +15,7 @@
   namespace Fawno\PhpSerial;
 
   use Fawno\PhpSerial\SerialException;
+  use Fawno\PhpSerial\SerialConfig;
   use Fawno\PhpSerial\SerialFileWindows;
   use Fawno\PhpSerial\SerialFileLinux;
   use Fawno\PhpSerial\SerialFileDarwing;
@@ -42,7 +43,18 @@
          * @uses Fawno\PhpSerial\SerialFileWindows Provides serial connection using file stream in Windows OS
          * @uses Fawno\PhpSerial\SerialException
          */
-        class SerialFile extends SerialFileWindows {}
+        class SerialFile extends SerialFileWindows {
+          /**
+           * Construct the serial interface. Sets the device path and register shutdown function.
+           *
+           * @param string|null $device
+           * @return void
+           */
+          public function __construct (string $device = null, SerialConfig $config) {
+            parent::__construct($device, $config);
+            unset($this->_options['is_canonical']);
+          }
+        }
       }
       break;
     case 'Linux':
@@ -55,7 +67,18 @@
          * @uses Fawno\PhpSerial\SerialFileLinux Provides serial connection using file stream in Linux OS
          * @uses Fawno\PhpSerial\SerialException
          */
-        class SerialFile extends SerialFileLinux {}
+        class SerialFile extends SerialFileLinux {
+          /**
+           * Construct the serial interface. Sets the device path and register shutdown function.
+           *
+           * @param string|null $device
+           * @return void
+           */
+          public function __construct (string $device = null, SerialConfig $config) {
+            parent::__construct($device, $config);
+            unset($this->_options['is_canonical']);
+          }
+        }
       }
       break;
     case 'Darwing':
@@ -68,7 +91,18 @@
          * @uses Fawno\PhpSerial\SerialFileDarwing Provides serial connection using file stream in OSX OS
          * @uses Fawno\PhpSerial\SerialException
          */
-        class SerialFile extends SerialFileDarwing {}
+        class SerialFile extends SerialFileDarwing {
+          /**
+           * Construct the serial interface. Sets the device path and register shutdown function.
+           *
+           * @param string|null $device
+           * @return void
+           */
+          public function __construct (string $device = null, SerialConfig $config) {
+            parent::__construct($device, $config);
+            unset($this->_options['is_canonical']);
+          }
+        }
       }
       break;
   }

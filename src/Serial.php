@@ -12,9 +12,16 @@
    * @since         0.0.1
    * @license       https://opensource.org/licenses/mit-license.php MIT License
    */
+  declare(strict_types=1);
+
   namespace Fawno\PhpSerial;
 
   use Fawno\PhpSerial\SerialException;
+  use Fawno\PhpSerial\SerialConfig;
+  use Fawno\PhpSerial\SerialBaudRates;
+  use Fawno\PhpSerial\SerialStopBits;
+  use Fawno\PhpSerial\SerialParity;
+  use Fawno\PhpSerial\SerialDataBits;
 
   /**
    * Serial provides general methods for serial communication.
@@ -27,22 +34,11 @@
    * @used-by Fawno\PhpSerial\SerialFileWindows
    */
   class Serial {
-    public const SERIAL_DATA_RATES = [75, 110, 134, 150, 300, 600, 1200, 1800, 2400, 4800, 7200, 9600, 14400, 19200, 38400, 57600, 115200, 56000, 128000, 256000];
-    public const SERIAL_DATA_BITS = [8, 7, 6, 5];
-    public const SERIAL_STOP_BITS = [1, 2];
-    public const SERIAL_PARITY = [0, 1, 2];
-    public const SERIAL_FLOW_CONTROL = [0, 1];
     public const SERIAL_CANONICAL = [0, 1];
 
     protected $_serial = null;
     protected $_device = null;
-    protected $_options = [
-      'data_rate' => 9600,
-      'data_bits' => 8,
-      'stop_bits' => 1,
-      'parity' => 0,
-      'flow_control' => 1,
-    ];
+    protected array $_options = [];
 
     /**
      * Construct the serial interface. Sets the device path and register shutdown function.
@@ -50,7 +46,8 @@
      * @param string|null $device
      * @return void
      */
-    public function __construct (string $device = null) {
+    public function __construct (string $device = null, SerialConfig $config) {
+      $this->_options = $config->__toArray();
       $this->setDevice($device);
 
       register_shutdown_function([$this, 'close']);
@@ -64,81 +61,6 @@
      */
     public function setDevice (string $device = null) {
       $this->_device = $device;
-    }
-
-    /**
-     * Sets the data rate.
-     *
-     * @param int $data_rate
-     * @return void
-     * @throws SerialException
-     */
-    public function setDataRate (int $data_rate = 9600) {
-      if (!in_array($data_rate, self::SERIAL_DATA_RATES)) {
-        throw new SerialException(sprintf('Invalid data_rate value (%d)', $data_rate));
-      }
-
-      $this->_options['data_rate'] = $data_rate;
-    }
-
-    /**
-     * Sets the parity.
-     *
-     * @param int $parity
-     * @return void
-     * @throws SerialException
-     */
-    public function setParity (int $parity = 0) {
-      if (!in_array($parity, self::SERIAL_PARITY)) {
-        throw new SerialException(sprintf('Invalid parity value (%d)', $parity));
-      }
-
-      $this->_options['parity'] = $parity;
-    }
-
-    /**
-     * Sets the number of data bits.
-     *
-     * @param int $data_bits
-     * @return void
-     * @throws SerialException
-     */
-    public function setDataBits (int $data_bits = 8) {
-      if (!in_array($data_bits, self::SERIAL_DATA_BITS)) {
-        throw new SerialException(sprintf('Invalid data_bits value (%d)', $data_bits));
-      }
-
-      $this->_options['data_bits'] = $data_bits;
-    }
-
-    /**
-     * Sets the number of stop bits.
-     *
-     * @param int $stop_bits
-     * @return void
-     * @throws SerialException
-     */
-    public function setStopBits (int $stop_bits = 1) {
-      if (!in_array($stop_bits, self::SERIAL_STOP_BITS)) {
-        throw new SerialException(sprintf('Invalid stop_bits value (%d)', $stop_bits));
-      }
-
-      $this->_options['stop_bits'] = $stop_bits;
-    }
-
-    /**
-     * Sets the flow control.
-     *
-     * @param int $flow_control
-     * @return void
-     * @throws ErrorSerialException
-     */
-    public function setFlowControl (int $flow_control = 1) {
-      if (!in_array($flow_control, self::SERIAL_FLOW_CONTROL)) {
-        throw new SerialException(sprintf('Invalid flow_control value (%d)', $flow_control));
-      }
-
-      $this->_options['flow_control'] = $flow_control;
     }
 
     /**
@@ -157,7 +79,7 @@
         throw new SerialException('Device must be opened to set blocking');
       }
 
-      return stream_set_blocking($this->_serial, $enable);
+      return stream_set_blocking($this->_serial, $enable) ? $this : false;
     }
 
     /**
@@ -179,7 +101,7 @@
         throw new SerialException('Device must be opened to set timeout');
       }
 
-      return stream_set_timeout($this->_serial, $seconds, $microseconds);
+      return stream_set_timeout($this->_serial, $seconds, $microseconds) ? $this : false;
     }
 
     /**
